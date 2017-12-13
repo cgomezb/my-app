@@ -7,27 +7,43 @@ import 'rxjs/Rx';
 @Injectable()
 export class FormPoster {
 
+    baseUrl = 'http://localhost:3100/';
+
     constructor(private http: Http) {
     }
 
     postEmployeeForm(employee: Employee): Observable<any> {
-        let url = 'http://localhost:3100/postemployee';
-        let body = JSON.stringify(employee);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const url = `${this.baseUrl}postemployee`;
+        const body = JSON.stringify(employee);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
 
         return this.http.post(url, body, options)
             .map(this.extractData)
             .catch(this.handlerError);
     }
 
-    extractData(resp: Response) {
-        let body = resp.json();
+    getLanguages(): Observable<any> {
+        const url = `${this.baseUrl}get-languages`;
+
+        return this.http.get(url)
+            .map(this.extractLanguages)
+            .catch(this.handlerError);
+    }
+
+    private extractData(resp: Response) {
+        const body = resp.json();
         return body.fields || {};
     }
 
-    handlerError(error: any) {
+    private extractLanguages(resp: Response) {
+        const body = resp.json();
+        return body.data || {};
+    }
+
+    private handlerError(error: any) {
         console.log('Post error: ', error);
         return Observable.throw(error.statusText);
     }
+
 }

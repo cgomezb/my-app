@@ -10,11 +10,21 @@ import { NgForm } from '@angular/forms';
 })
 export class AppComponent {
   title = 'app';
-  languages = ['English', 'Spanish', 'Other'];
+  languages = [];
   model = new Employee('Cesar', 'Gomez', true, 'payOne', 'default');
   hasPrimaryLanguageError = false;
 
   constructor(private formPoster: FormPoster) {
+
+  }
+
+  $OnInit() {
+    this.formPoster.getLanguages().subscribe(
+      data => {
+        this.languages = data;
+      },
+      err => console.log('Error: ', err)
+    );
   }
 
   validatePrimaryLanguage(value) {
