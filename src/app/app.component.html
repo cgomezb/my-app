@@ -20,47 +20,59 @@
   <label>First Name:</label>{{firstName}} -->
 
 
-  <form #form="ngForm" novalidate>
-    <div class="form-group">
-      <label>First Name</label>
-      <input type="text" name="firstName" [(ngModel)]="model.firstName">
+  <form #form="ngForm" (submit)="submitForm(form)" novalidate>
+
+    <div class="form-group" [class.has-error]="firstName.invalid && firstName.touched">
+      <label class="control-label">First Name</label>
+      <input #firstName="ngModel" type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" required>
+      <!-- <div *ngIf="firstName.invalid && firstName.touched" class="alert alert-danger">
+        First Name is required
+      </div> -->
     </div>
 
-    <div class="form-group">
-      <label>Last Name</label>
-      <input type="text" name="lastName" [(ngModel)]="model.lastName">
+    <div class="form-group" [class.has-error]="lastName.invalid && lastName.touched">
+      <label class="control-label">Last Name</label>
+      <input #lastName="ngModel" type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" required>
     </div>
 
     <div class="checkbox">
-      <label>
+      <label class="control-label">
         <input type="checkbox" name="isFullTime" [(ngModel)]="model.isFullTime"> Full Time Employee
       </label>
     </div>
 
-    <div class="form-group">
-      <label>Payment Type</label>
-      <div class="radio">
+    <label class="control-label">Payment Type</label>
+    <div class="radio">
+      <label>
         <input type="radio" name="paymentType" value="payOne" [(ngModel)]="model.paymentType"> Pay One
-      </div>
-
-      <div class="radio">
-        <input type="radio" name="paymentType" value="payTwo" [(ngModel)]="model.paymentType"> Pay Two
-      </div>
+      </label>
     </div>
 
-    <div class="form-group">
-      <label>Primary Language</label>
-      <select class="form-control" name="primaryLanguage" [(ngModel)]="model.primaryLanguage">
+    <div class="radio">
+      <label>
+        <input type="radio" name="paymentType" value="payTwo" [(ngModel)]="model.paymentType"> Pay Two
+      </label>
+    </div>
+
+    <div class="form-group" [class.has-error]="hasPrimaryLanguageError">
+      <label class="control-label">Primary Language</label>
+      <select #primaryLanguage class="form-control" name="primaryLanguage" (blur)="validatePrimaryLanguage(primaryLanguage.value)"
+        (change)="validatePrimaryLanguage(primaryLanguage.value)" [(ngModel)]="model.primaryLanguage">
+        <option value="default"> Select a Language... </option>
         <option *ngFor="let lang of languages">
           {{ lang }}
         </option>
       </select>
     </div>
 
+
+    <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Ok</button>
+
   </form>
 
-  <label>First Name model:</label>{{model | json}}
-  <br>
-  <label>First Name Form:</label>{{form.value | json}}
-
+  <div class="row">
+    <label>First Name model:</label>{{model | json}}
+    <br>
+    <label>First Name Form:</label>{{form.value | json}}
+  </div>
 </div>
