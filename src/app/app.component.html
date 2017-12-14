@@ -75,4 +75,11 @@
     <br>
     <label>First Name Form:</label>{{form.value | json}}
   </div>
+
+  <br>
+  <br>
+  <h3>DatePicker</h3>
+  <div class="row">
+    <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue">
+  </div>
 </div>

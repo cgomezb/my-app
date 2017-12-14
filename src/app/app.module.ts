@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { FormPoster } from '../service/form-poster.service';
 import { HttpModule } from '@angular/http';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { HttpModule } from '@angular/http';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [FormPoster],
   bootstrap: [AppComponent]

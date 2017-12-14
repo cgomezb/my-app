@@ -15,20 +15,16 @@ export class AppComponent {
   hasPrimaryLanguageError = false;
 
   constructor(private formPoster: FormPoster) {
-
-  }
-
-  $OnInit() {
     this.formPoster.getLanguages().subscribe(
       data => {
-        this.languages = data;
+        this.languages = data.languages;
       },
       err => console.log('Error: ', err)
     );
   }
 
   validatePrimaryLanguage(value) {
-    this.hasPrimaryLanguageError = value === "default";
+    this.hasPrimaryLanguageError = value === 'default';
   }
 
   submitForm(form: NgForm) {
